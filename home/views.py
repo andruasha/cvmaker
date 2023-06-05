@@ -1,9 +1,11 @@
 from django.shortcuts import render
+from home.models import Summary
 
 
 def index(request):
     context = {
-        'title': 'title'
+        'title': 'CVMaker',
+        'summaries': Summary.objects.all(),
     }
     return render(request, 'home/index.html', context)
 
