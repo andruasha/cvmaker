@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>cvmaker</title>
+    <title>{{ title }}</title>
 </head>
 <body>
     <h1>Header</h1>
     <p>TEXT</p>
     <a href="login.html">Login</a> | <a href="register.html">Registartion</a>
+    <br><br>
+    <a href="{% url 'home' %}">Go to Home</a>
 </body>
 </html>
