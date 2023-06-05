@@ -6,8 +6,30 @@
 <body>
     <h1>Header</h1>
     <p>TEXT</p>
-    <a href="login.html">Login</a> | <a href="register.html">Registartion</a>
+    <a href="{% url 'users:login' %}">Login</a> | <a href="{% url 'users:registration' %}">Registartion</a>
     <br><br>
-    <a href="{% url 'home' %}">Go to Home</a>
+    <a href='{% url 'home:index' %}'>Go to Home</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>PATH</th>
+                <th>USER</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in summaries %}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.name }}</td>
+                <td>{{ row.path }}</td>
+                <td>{{ row.user }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 </body>
 </html>
