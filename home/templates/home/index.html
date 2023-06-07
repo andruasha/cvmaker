@@ -10,26 +10,30 @@
     <br><br>
     <a href='{% url 'home:home' %}'>Go to generate</a>
 
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>PATH</th>
-                <th>USER</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in summaries %}
-            <tr>
-                <td>{{ row.id }}</td>
-                <td>{{ row.name }}</td>
-                <td>{{ row.path }}</td>
-                <td>{{ row.user }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    {% if user.is_authenticated %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>PATH</th>
+                    <th>USER</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in summaries %}
+                <tr>
+                    <td>{{ row.id }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.path }}</td>
+                    <td>{{ row.user }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Необходимо авториоваться, чтобы увидеть созданные резюме</p>
+    {% endif %}
 
 </body>
 </html>
