@@ -11,4 +11,4 @@ def index(request):
 
 
 def home(request):
-    return render (request, 'home/home.html')
+    return render(request, 'home/home.html')
