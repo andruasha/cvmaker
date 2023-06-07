@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from home.models import Summary
 from home.forms import SummaryForm
-from home.generator import pdfGenerate
+from home.generator import dataToPDF
+from home.models import Summary
 
 
 def index(request):
+    currentUserId = request.user.id
+
+    summaries = Summary.objects.filter(user=currentUserId)
+
     context = {
         'title': 'CVMaker',
-        'summaries': Summary.objects.all(),
+        'summaries': summaries,
     }
     return render(request, 'home/index.html', context)
 
@@ -25,7 +30,11 @@ def home(request):
         skills = request.POST['skills']
         languages = request.POST['languages']
 
-        return pdfGenerate(name, surname, email, number, education, experience, skills, languages)
+        Summary.objects.create(name='name', path='path', user=request.user.id)
+
+        print(Summary.objects.all())
+
+        return dataToPDF(name, surname, email, number, education, experience, skills, languages)
 
     else:
         form = SummaryForm()

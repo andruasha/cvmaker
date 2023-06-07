@@ -6,9 +6,10 @@ import re
 import os
 
 
-def pdfGenerate(name, surname, email, number, education, experience, skills, languages):
-        font_path = os.path.join(os.path.dirname(__file__), 'fonts/arial.ttf')
-        pdfmetrics.registerFont(TTFont('Arial', font_path))
+def dataToPDF(name, surname, email, number, education, experience, skills, languages):
+
+        fontPath = os.path.join(os.path.dirname(__file__), 'fonts/arial.ttf')
+        pdfmetrics.registerFont(TTFont('Arial', fontPath))
 
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="resume.pdf"'
@@ -33,7 +34,6 @@ def pdfGenerate(name, surname, email, number, education, experience, skills, lan
             y -= 15
         y = y - 20
 
-
         p.setFont("Arial", 18)
         p.drawString(50, y, "Опыт работы")
         p.line(50, y-10, 550, y-10)
@@ -45,7 +45,6 @@ def pdfGenerate(name, surname, email, number, education, experience, skills, lan
             y -= 15
         y = y - 20
 
-
         p.setFont("Arial", 18)
         p.drawString(50, y, "Профессиональные навыки")
         p.line(50, y-10, 550, y-10)
@@ -56,7 +55,6 @@ def pdfGenerate(name, surname, email, number, education, experience, skills, lan
             p.drawString(50, y, "• " + line)
             y -= 15
         y = y - 20
-
 
         p.setFont("Arial", 18)
         p.drawString(50, y, "Знание языков")
