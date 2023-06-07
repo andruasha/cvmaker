@@ -5,15 +5,33 @@
 </head>
 <body>
     <h1>Регистрация</h1>
-    <form action="register.php" method="post">
-        <label for="username">Имя пользователя:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
-        <label for="password">Пароль:</label>
-        <input type="password" id="password" name="password" required><br><br>
+    <form action="{% url 'users:registration' %}" method="post">
+        {% csrf_token %}
+        <div>
 
-        <input type="submit" value="Зарегистрироваться">
+            <div>
+                <label for="{{ form.username.id_for_label }}">Имя пользователя:</label>
+                {{ form.username }}
+            </div>
+
+            <div>
+                <label for="{{ form.email.id_for_label }}">Email:</label>
+                {{ form.email }}
+            </div>
+
+            <div>
+                <label for="{{ form.password1.id_for_label }}">Пароль:</label>
+            {{ form.password1 }}
+            </div>
+
+            <div>
+                <label for="{{ form.password2.id_for_label }}">Повторите пароль:</label>
+                {{ form.password2 }}
+            </div>
+
+            <input type="submit" value="Зарегистрироваться">
+        </div>
+
     </form>
 </body>
 </html>

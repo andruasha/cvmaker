@@ -1,13 +1,13 @@
 from django.shortcuts import render, HttpResponseRedirect
 from users.models import User
-from users.forms import UserLoginForm
+from users.forms import UserLoginForm, UserRegistrationForm
 from django.contrib import auth
 from django.urls import reverse
 
 
 def login(request):
     if request.method == 'POST':
-        form = UserLoginForm(data=request)
+        form = UserLoginForm(data=request.POST)
         if form.is_valid():
             username = request.POST['username']
             password = request.POST['password']
@@ -22,4 +22,12 @@ def login(request):
 
 
 def registration(request):
-    return render(request, 'users/register.html')
+    if request.method == 'POST':
+        form = UserRegistrationForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('users:registration'))
+    else:
+        form = UserRegistrationForm()
+    context = {'form': form}
+    return render(request, 'users/register.html', context)
