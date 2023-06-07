@@ -1,9 +1,7 @@
 from django.shortcuts import render
 from home.models import Summary
 from home.forms import SummaryForm
-from django.http import HttpResponse
-from io import BytesIO
-from reportlab.pdfgen import canvas
+from home.generator import pdfGenerate
 
 
 def index(request):
@@ -27,30 +25,7 @@ def home(request):
         skills = request.POST['skills']
         languages = request.POST['languages']
 
-        buffer = BytesIO()
-        p = canvas.Canvas(buffer)
-
-        # Настройте документ PDF
-        p.setFont("Helvetica", 12)
-        p.drawString(100, 700, "Имя: {}".format(name))
-        p.drawString(100, 680, "Email: {}".format(email))
-        # ... добавьте другие данные резюме
-
-        # Завершите и сохраните документ PDF
-        p.showPage()
-        p.save()
-
-        # Получите содержимое PDF из буфера
-        buffer.seek(0)
-        pdf = buffer.getvalue()
-        buffer.close()
-
-        # Отправьте сгенерированный PDF в ответе HTTP
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="resume.pdf"'
-        response.write(pdf)
-
-        return response
+        return pdfGenerate(name, surname, email, number, education, experience, skills, languages)
 
     else:
         form = SummaryForm()
