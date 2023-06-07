@@ -2,6 +2,7 @@ from django.shortcuts import render
 from home.forms import SummaryForm
 from home.generator import convert
 from home.models import Summary
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -16,6 +17,7 @@ def index(request):
     return render(request, 'home/index.html', context)
 
 
+@login_required(login_url='users:login')
 def home(request):
     if request.method == 'POST':
 
