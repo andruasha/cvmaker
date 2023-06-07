@@ -1,7 +1,6 @@
 from django.shortcuts import render
-from home.models import Summary
 from home.forms import SummaryForm
-from home.generator import dataToPDF
+from home.generator import convert
 from home.models import Summary
 
 
@@ -19,7 +18,6 @@ def index(request):
 
 def home(request):
     if request.method == 'POST':
-        form = SummaryForm(data=request.POST)
 
         name = request.POST['name']
         surname = request.POST['surname']
@@ -32,9 +30,7 @@ def home(request):
 
         Summary.objects.create(name='name', path='path', user=request.user.id)
 
-        print(Summary.objects.all())
-
-        return dataToPDF(name, surname, email, number, education, experience, skills, languages)
+        return convert(name, surname, email, number, education, experience, skills, languages)
 
     else:
         form = SummaryForm()
