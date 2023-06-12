@@ -29,6 +29,11 @@
         {% csrf_token %}
 
         <div class="form-row">
+            <label for="{{ form.title.id_for_label }}">Название:</label>
+            {{ form.title }}
+        </div>
+
+        <div class="form-row">
             <label for="{{ form.name.id_for_label }}">Имя:</label>
             {{ form.name }}
         </div>

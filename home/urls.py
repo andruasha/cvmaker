@@ -1,10 +1,11 @@
 from django.urls import path
-from home.views import index, home
+from home.views import index, home, download
 
 
 app_name = 'home'
 
 urlpatterns = [
     path('', index, name='index'),
-    path('home/', home, name='home'),
+    path('generate/', home, name='home'),
+    path('download/<path:path>', download, name='download')
 ]

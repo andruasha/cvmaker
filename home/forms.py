@@ -2,6 +2,9 @@ from django import forms
 from home.models import Summary
 
 class SummaryForm(forms.ModelForm):
+    title = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control py-4',
+    }))
     name = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control py-4',
     }))

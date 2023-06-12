@@ -1,19 +1,33 @@
 from django.http import HttpResponse
+from home.models import Summary
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.pagesizes import letter
 import re
 import os
 
 
-def convert(name, surname, email, number, education, experience, skills, languages):
+def convert(title, name, surname, email, number, education, experience, skills, languages, request):
     fontPath = os.path.join(os.path.dirname(__file__), 'fonts/arial.ttf')
     pdfmetrics.registerFont(TTFont('Arial', fontPath))
 
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="resume.pdf"'
+    resumePath = os.path.join(os.path.dirname(__file__), 'resumes')
+    files = os.listdir(resumePath)
 
-    p = canvas.Canvas(response)
+    digitNameFiles = []
+    for file in files:
+        fileName, fileExt = os.path.splitext(file)
+        if fileName.isdigit():
+            digitNameFiles.append(int(fileName))
+
+    if digitNameFiles:
+        maximum = max(digitNameFiles)
+        nextFilename = str(int(maximum) + 1) + '.pdf'
+        filePath = os.path.join(resumePath, nextFilename)
+    else:
+        filePath = os.path.join(os.path.dirname(__file__), 'resumes', '0.pdf')
+    p = canvas.Canvas(filePath, pagesize=letter)
 
     p.setFont("Arial", 18)
     p.drawCentredString(300, 800, f"{surname} {name}")
@@ -68,5 +82,11 @@ def convert(name, surname, email, number, education, experience, skills, languag
 
     p.showPage()
     p.save()
+
+    with open(filePath, 'rb') as file:
+        response = HttpResponse(file.read(), content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="resume.pdf"'
+
+    Summary.objects.create(name=title, path=filePath, user=request.user.id)
 
     return response
